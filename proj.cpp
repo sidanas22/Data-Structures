@@ -15,7 +15,6 @@ int stringmatch(string a,string b)
 	
 	while(1)
 	{
-	
 	switch (currentState)
 	{
 	case Match:
@@ -29,8 +28,22 @@ int stringmatch(string a,string b)
 		return 0;
 		break;
 	case Star:
-		while(b[j]!=a[i] && i != a.length())
-		{i++;}
+		while(1)
+		{
+		
+			while(b[j]!=a[i] && i != a.length())
+			{i++;}
+//			cout<<a[i]<<" "<<a.length()-i-1;
+			int lena=a.length()-i-1;
+			int lenb=0;
+			int k=j;
+			while(k!=b.length()-1)
+			{k++;lenb++;}
+//			cout<<endl<<"Dubug  "<<lena<<"   "<<lenb<<endl;
+			if (lenb>=lena)
+			{break;}
+			else{i++;}
+		}
 		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++;currentState=Match;}
 		else {currentState = NotMatch;}
@@ -48,7 +61,6 @@ int stringmatch(string a,string b)
 	
 }
 
-
 int main()
 {
 	string line1,line2;
@@ -58,13 +70,13 @@ int main()
 	myfile.open("sample.txt",ios::in);
 	
 	while(!myfile.eof())
-	{myfile>>line1;
-	int result = stringmatch(line1,line2);
-	if (result == 1)
 	{
-		cout<<line1<<endl;
+		myfile>>line1;
+		int result = stringmatch(line1,line2);
+		if (result == 1)
+		{
+			cout<<line1<<endl;
+		}
 	}
-	}
-	system("pause");
 	return 0;
 }
