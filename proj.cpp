@@ -88,7 +88,7 @@ class SLL{
 		{
 			cout<<temp->data<<endl;
 		}
-		cout<<"\n\n\n________ENDING___________";
+		cout<<"\n\n\n________ENDING___________\n";
 		
 	}
 	
@@ -114,7 +114,7 @@ class Finite_state_machine
 		filename = filename+".txt";
 	}
 	
-	
+	//main function for solving expression matching
 	void regex(string pattern1)
 	{
 		string word_from_file;
@@ -122,7 +122,6 @@ class Finite_state_machine
 		count=0;
 		
 		//FILING WORK
-		
 		
 		myfile.open(filename.c_str(),ios::in);
 		
@@ -137,7 +136,7 @@ class Finite_state_machine
 		{
 			getline(myfile,word_from_file);
 			int result = stringmatch(word_from_file,pattern);
-			if (result == 1)
+			if (result == 1)		//pattern founc
 			{
 			count++;	
 			wordlist.add_to_tail(word_from_file);
@@ -145,22 +144,22 @@ class Finite_state_machine
 		}
 		myfile.close();
 		cout<<endl<<"Results Found: "<<count<<endl<<endl;
-		wordlist.print();
+		wordlist.print();		//print all words that matches the expression
 	}
-		
+	
+	//function to match the string taken from file and pattern entered by user	
 	int stringmatch(string a,string b){
-		
-		
-			state currentState = Match;
+
+			state currentState = Match;				//initialise finite state machiene using enums
 			int i=0,j=0;
 			
-			while(1)
-			{
+		while(1)
+		{
 			switch (currentState)
 			{
 			
 			
-			case Match:
+			case Match:													//if both the strings have same character
 				if (i==a.length() && j==b.length()){return 1;}
 				if (a[i]==b[j]){i++;j++; currentState=Match;}
 				else if (b[j]=='*'){j++;currentState = Star;} 
@@ -169,37 +168,42 @@ class Finite_state_machine
 				break;
 			
 			
-			case NotMatch:
-				return 0;
+			case NotMatch:												//if characters dont match
+				return 0;												// match not found, move to another string
 				break;
 			
 			
-			case Star:
+			case Star:													//if pattern has star
 				
 				
 				while(1)
 				{
-					if (j>b.length()-1 && i <= a.length()){return 1;}
+					if (j>b.length()-1 && i <= a.length()){return 1;}			//if both the strings have reached end point
 					
-					while(b[j]!=a[i] && i <= a.length()-1)
+					while(b[j]!=a[i] && i <= a.length()-1)						//Till string's character matches the pattern's character after *
 					{i++;}
 					
-					if (i==a.length()-1 || b[j+1]=='*' || b[j+1]=='.'){break;}
+					if (i==a.length()-1 || b[j+1]=='*' || b[j+1]=='.'){break;}			//if string has reached its end, or next character of pattern is * or .
 					
-					while (a[i+1]!=b[j+1] && i<=a.length())
+					while (a[i+1]!=b[j+1] && i<=a.length())					//till next character of string and pattern matches
 					{i++;}
 					
-					if (i>a.length()){break;}
+					if (i>a.length()){break;}								//if string has reached its endpoint
 					
 					int  starflag=0,lenb=0,x;
 					
-					for (x=j;x<b.length();x++)
+					for (x=j;x<b.length();x++)								//to check if pattern has any other *'s
 					{
 						if (b[x]=='*'){starflag = 1; break;}
 						else{lenb++;}
 					}
 					int lena = a.length()-i-1;
-					if ((starflag==1 && a[x+1]==b[j] && a[x+1]==b[j+1]) || (starflag==0 && lena>lenb)){i++; continue;}
+					
+					//if pattern has star and pattern and string match and next characters of pattern and string matches
+					//OR
+					//if pattern has no star and length of string is greater than pattern length
+					
+					if ((starflag==1 && a[x]==b[j] && a[x+1]==b[j+1]) || (starflag==0 && lena>lenb)){i++; continue;}	
 					else
 					{break;}
 				}
@@ -211,7 +215,7 @@ class Finite_state_machine
 				
 			
 			
-			case Dot:
+			case Dot:														//if pattern has . as its character
 				if (i==a.length() && j==b.length()){return 1;}
 				if (a[i]==b[j]){i++;j++;currentState=Match;}
 				else if (b[j]=='*'){j++;currentState = Star;}
@@ -237,11 +241,10 @@ int main()
 	while(flag==1)
 	{
 	
-	cout<<"Please enter the option no. ('1','2' or '3') you want to search the pattern from:\n";
-	cout<<"1. Names\n2. English Dictionary\n3. Custom\n";
-	cin>>num;
+		cout<<"\nPlease enter the option no. ('1','2' or '3') you want to search the pattern from:\n";
+		cout<<"1. Names\n2. English Dictionary\n3. Custom\n";
 	
-	Finite_state_machine fsm;
+		Finite_state_machine fsm;
 	
 	if(num==1)
 	{
@@ -278,7 +281,6 @@ int main()
 	{
 		flag = 0;
 	}	
-	
 }
 	return 0;
 }
