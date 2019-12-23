@@ -104,11 +104,11 @@ class Finite_state_machine
 	
 	public:
 		
-	Finite_state_machine(string file_name)
+	
+	void get_filename(string file_name)
 	{
-		
-		
 		this->filename = file_name;
+		filename = filename+".txt";
 	}
 	
 	
@@ -119,7 +119,7 @@ class Finite_state_machine
 		
 		
 		//FILING WORK
-		filename = filename+".txt";
+		
 		
 		myfile.open(filename.c_str(),ios::in);
 		
