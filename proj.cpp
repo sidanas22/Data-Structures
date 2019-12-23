@@ -1,15 +1,13 @@
 #include<iostream>
 #include <fstream>
 #include<string>
+#include <time.h>
 using namespace std;
 
 
 enum state{
 	Match,NotMatch,Star,Dot
 };
-
-
-
 
 class node{
 	public:
@@ -131,6 +129,8 @@ class Finite_state_machine
 			exit(1);
 		}
 		
+		clock_t time_req;
+		time_req = clock();
 		
 		while(!myfile.eof())
 		{
@@ -143,7 +143,9 @@ class Finite_state_machine
 			}
 		}
 		myfile.close();
-		cout<<endl<<"Results Found: "<<count<<endl<<endl;
+		cout<<endl<<"Results Found: "<<count<<endl;
+		time_req = clock() - time_req;
+		cout << "All wwords Loaded in " << (float)time_req/CLOCKS_PER_SEC << " seconds" << endl<<endl;
 		wordlist.print();		//print all words that matches the expression
 	}
 	
@@ -245,6 +247,7 @@ int main()
 		cout<<"1. Names\n2. English Dictionary\n3. Custom\n";
 	
 		Finite_state_machine fsm;
+		cin>>num;
 	
 	if(num==1)
 	{
