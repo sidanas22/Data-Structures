@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-// test comment
+
 enum state{
 	Match,NotMatch,Star,Dot
 };
@@ -15,13 +15,12 @@ int stringmatch(string a,string b)
 	
 	while(1)
 	{
-	
 	switch (currentState)
 	{
 	case Match:
 		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++; currentState=Match;}
-		else if (b[j]=='*'){i++;j++;currentState = Star;} 
+		else if (b[j]=='*'){j++;currentState = Star;} 
 		else if (b[j]=='.'){i++;j++;currentState =  Dot;}
 		else {currentState = NotMatch;}
 		break;
@@ -29,42 +28,70 @@ int stringmatch(string a,string b)
 		return 0;
 		break;
 	case Star:
-		while(b[j]!=a[i] && i != a.length())
-		{i++;}
+		while(1)
+		{
+			if (j>b.length()-1 && i <= a.length()){return 1;}
+			
+			while(b[j]!=a[i] && i <= a.length()-1)
+			{i++;}
+			
+			if (i==a.length()-1 || b[j+1]=='*' || b[j+1]=='.'){break;}
+			
+			while (a[i+1]!=b[j+1] && i<=a.length())
+			{i++;}
+			
+			if (i>a.length()){break;}
+			
+			int  starflag=0,lenb=0,x;
+			
+			for (x=j;x<b.length();x++)
+			{
+				if (b[x]=='*'){starflag = 1; break;}
+				else{lenb++;}
+			}
+			int lena = a.length()-i-1;
+			if ((starflag==1 && a[x+1]==b[j] && a[x+1]==b[j+1]) || (starflag==0 && lena>lenb)){i++; continue;}
+			else
+			{break;}
+		}
+		
 		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++;currentState=Match;}
 		else {currentState = NotMatch;}
 		break;
+		
 	case Dot:
+		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++;currentState=Match;}
 		else if (b[j]=='*'){j++;currentState = Star;}
 		else if (b[j]=='.'){i++;j++;currentState =  Dot;} 
 		else {currentState = NotMatch;} 
 		break;
-	default:
+	
+		default:
 		break;				
 	}
 	}
 	
 }
 
-
 int main()
 {
 	string line1,line2;
-	cin>>line2;
+//	cin>>line2;
+	getline(cin,line2);
 	
 	fstream myfile;
 	myfile.open("sample.txt",ios::in);
 	
 	while(!myfile.eof())
-	{myfile>>line1;
-	int result = stringmatch(line1,line2);
-	if (result == 1)
 	{
-		cout<<line1<<endl;
+		getline(myfile,line1);
+		int result = stringmatch(line1,line2);
+		if (result == 1)
+		{
+			cout<<line1<<endl;
+		}
 	}
-	}
-	system("pause");
 	return 0;
 }
