@@ -103,6 +103,7 @@ class Finite_state_machine
 		fstream myfile;
 		string filename;
 		SLL wordlist;
+		int count;
 	
 	public:
 		
@@ -118,7 +119,7 @@ class Finite_state_machine
 	{
 		string word_from_file;
 		this->pattern = pattern1;
-		
+		count=0;
 		
 		//FILING WORK
 		
@@ -138,10 +139,12 @@ class Finite_state_machine
 			int result = stringmatch(word_from_file,pattern);
 			if (result == 1)
 			{
+			count++;	
 			wordlist.add_to_tail(word_from_file);
 			}
 		}
 		myfile.close();
+		cout<<endl<<"Results Found: "<<count<<endl<<endl;
 		wordlist.print();
 	}
 		
@@ -234,8 +237,8 @@ int main()
 	while(flag==1)
 	{
 	
-	cout<<"Please enter the option no. ('1' or '2'') you want to search the pattern from:\n";
-	cout<<"1. Names\n2. English Dictionary\n";
+	cout<<"Please enter the option no. ('1','2' or '3') you want to search the pattern from:\n";
+	cout<<"1. Names\n2. English Dictionary\n3. Custom\n";
 	cin>>num;
 	
 	Finite_state_machine fsm;
@@ -243,44 +246,39 @@ int main()
 	if(num==1)
 	{
 		fsm.get_filename("names");
-//		system("pause");
-//		system("CLS");	
 	}
-	
 	
 	else if(num==2)
 	{
 		fsm.get_filename("english");
-//		system("pause");
-//		system("CLS");
+	}
+	
+	else if (num==3)
+	{
+		fsm.get_filename("sample");
 	}
 	else
 	{
 		std::cout<<"Error! Please enter valid option!";
-//		system("pause");
-//		system("CLS");
 		flag=1;
 		continue;
 	}
 	cout<<"\nPlease enter the string pattern:\n";
-	getline(cin,pattern);
+	cin>>pattern;
 	fsm.regex(pattern);
-	system("pause");
-	system("CLS");
-    cout<<"\nDo you want to search again ? (yes/no)\n";
+
+    cout<<endl<<endl<<"\nDo you want to search again ? (yes/no)\n";
 	cin>>answer;
 	if(answer=="yes")
 	{
 		flag = 1;
+		system("CLS");
 	}
 	else if(answer=="no")
 	{
 		flag = 0;
 	}	
 	
-	
 }
-
-		
 	return 0;
 }
