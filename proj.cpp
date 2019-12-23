@@ -30,28 +30,42 @@ int stringmatch(string a,string b)
 	case Star:
 		while(1)
 		{
-			if (j==b.length()){return 1 ;break;}
-			while(b[j]!=a[i] && i != a.length()-1)
+			if (j==b.length() && i < a.length()){return 1;}
+			
+			while(b[j]!=a[i] && i <= a.length()-1)
 			{i++;}
-			cout<<a[i]<<" "<<a.length()-i-1;
-			int lena=a.length()-i-1;
-			int lenb=0;
-			int k=j;
-//			while(k!=b.length())	    //y*k*
-			while(k!=b.length()-1)     //hellohello
-			{k++; lenb++;}
 			
-			cout<<endl<<"Dubug  "<<lena<<"   "<<lenb<<endl;
+			if (i==a.length()-1){break;}
 			
-//			if (lenb!=lena)			//y*k*
-			if (lenb==lena)			//hellohello
+			if (b[j+1]=='*'){break;}
+			if (b[j+1]=='.'){break;}
+			
+			
+			
+			while (a[i+1]!=b[j+1] && i<=a.length())
+			{i++;}
+			
+			if (i>a.length()){break;}
+			
+			int  starflag=0,lenb=0,x;
+			
+			for (x=j;x<b.length();x++)
+			{
+				if (b[x]=='*'){starflag = 1; break;}
+				else{lenb++;}
+			}
+			int lena = a.length()-i-1;
+			if ((starflag==1 && a[x+1]==b[j] && a[x+1]==b[j+1]) || (starflag==0 && lena>lenb)){i++; continue;}
+//			if (a[i+1]==b[j+1] && starflag==0 && lena==lenb)
+			else
 			{break;}
-			else{i++;}
 		}
+		
 		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++;currentState=Match;}
 		else {currentState = NotMatch;}
 		break;
+		
 	case Dot:
 		if (i==a.length() && j==b.length()){return 1;}
 		if (a[i]==b[j]){i++;j++;currentState=Match;}
