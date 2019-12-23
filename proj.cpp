@@ -269,7 +269,7 @@ int main()
 		flag=1;
 		continue;
 	}
-	cout<<"\nPlease enter the string pattern:\n";
+	cout<<"\nPlease enter the string pattern:\n'*' Indicates String Of Any Length\n'.' Indicates A Single Character\n";
 	cin>>pattern;
 	fsm.regex(pattern);
 
