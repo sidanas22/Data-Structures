@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-// test comment
+// test comment2
 enum state{
 	Match,NotMatch,Star,Dot
 };
